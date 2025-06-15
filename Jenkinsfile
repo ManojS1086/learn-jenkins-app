@@ -2,26 +2,27 @@ pipeline {
     agent any
 
     stages {
-        stage (parallelblock){
-            parallel{
-                stage('Build') {
-                    agent {
-                        docker {
-                            image 'node:18-alpine'
-                            reuseNode true
-                        }
-                    }
-                    steps {
-                        sh '''
-                        ls -la
-                        node --version
-                        npm --version
-                        npm ci
-                        npm run build
-                        ls -la
-                        '''
-                    }
+        stage('Build') {
+            agent {
+                docker {
+                    image 'node:18-alpine'
+                    reuseNode true
                 }
+            }
+            steps {
+                sh '''
+                ls -la
+                node --version
+                npm --version
+                npm ci
+                npm run build
+                ls -la
+                '''
+            }
+        }
+
+        stage(parallelblock){
+            parallel{
                 stage('E2E'){
                     agent{
                         docker{
@@ -45,27 +46,25 @@ pipeline {
                     }
                 }
 
-            }
-        }
-        
-
-        stage('Test'){
-            agent{
-                docker{
-                    image 'node:18-alpine'
-                    reuseNode true
-                }
-            }
-            steps{
-                sh '''
-                ls -la
-                test -f build/index.html
-                npm test
-                '''
-            }
-            post{
-                always{
-                    junit 'jest-results/junit.xml'
+                stage('Test'){
+                    agent{
+                        docker{
+                            image 'node:18-alpine'
+                            reuseNode true
+                        }
+                    }
+                    steps{
+                        sh '''
+                        ls -la
+                        test -f build/index.html
+                        npm test
+                        '''
+                    }
+                    post{
+                        always{
+                            junit 'jest-results/junit.xml'
+                        }
+                    }
                 }
             }
         }
