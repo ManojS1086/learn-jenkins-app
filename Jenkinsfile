@@ -73,7 +73,7 @@ pipeline {
                 }
             }
         }
-
+        /*
         stage('preprod') {
             agent {
                 docker {
@@ -137,6 +137,7 @@ pipeline {
                     publishHTML([allowMissing: false, alwaysLinkToLastBuild: false, icon: '', keepAll: false, reportDir: 'playwright-report', reportFiles: 'index.html', reportName: 'playwright prod Report', reportTitles: '', useWrapperFileDirectly: true])
                 }
             }
-        }
+        } 
+        */
     }
 }
