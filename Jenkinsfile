@@ -76,7 +76,7 @@ pipeline {
                 }
             }
         }
-        stage('E2E Tests') {
+        stage('post-E2E Tests') {
             environment{
                 CI_ENVIRONMENT_URL= 'http://jenkins-bucket-22-06-2025-10-49.s3.amazonaws.com/index.html'
             }
