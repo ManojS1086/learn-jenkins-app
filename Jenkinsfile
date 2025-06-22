@@ -68,10 +68,12 @@ pipeline {
                 }
             }
             steps {
-                sh '''
-                aws --version
-                aws s3 sync build s3://jenkins-bucket-22-06-2025-10-49
-                '''
+                withCredentials([usernamePassword(credentialsId: 'jenkins-password', passwordVariable: 'AWS_SECRET_ACCESS_KEY', usernameVariable: 'AWS_ACCESS_KEY_ID')]) {
+                    sh '''
+                    aws --version
+                    aws s3 sync build s3://jenkins-bucket-22-06-2025-10-49
+                    '''
+                }
             }
         }
     }
