@@ -11,7 +11,7 @@ pipeline {
             }
             steps {
                 sh '''
-                npm --vesion
+                npm --version
                 npm ci
                 npm run build         
                 '''
